@@ -15,6 +15,35 @@ app.get("/notes", (req, res) => {
   res.sendFile(path.join(__dirname, "./public/notes.html"));
 });
 
+app.get("/api/notes", (req, res) => {
+  fs.readFile("./db/db.json", "utf-8", (err, data) => {
+    const parsedData = JSON.parse(data);
+    // console.log(parsedData);
+    res.json(parsedData);
+  });
+});
+
+
+app.post("/api/notes", (req, res) => {
+    console.log(req.body)
+
+    const newNote = req.body;
+
+    fs.readFile("./db/db.json", "utf-8", (err, data) => {
+        const parsedData = JSON.parse(data);
+
+        parsedData.push(newNote);
+
+        console.log(parsedData);
+
+        fs.writeFile("./db/db.json", JSON.stringify(parsedData), () => {
+            console.log("Added new note successfully!")
+            res.json(parsedData);
+            
+        })
+
+      });
+})
 
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "./public/index.html"));
