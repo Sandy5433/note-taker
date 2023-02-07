@@ -3,6 +3,7 @@ const app = express();
 const path = require("path");
 const fs = require("fs");
 const { parse } = require("path");
+const uniqid = require("uniqid");
 
 // middleware
 app.use(express.static("public"));
@@ -17,7 +18,7 @@ app.get("/notes", (req, res) => {
 
 app.get("/api/notes", (req, res) => {
   fs.readFile("./db/db.json", "utf-8", (err, data) => {
-    const parsedData = JSON.parse(data);
+    const parsedData = JSON.parse(data); //converts data from string to array
     // console.log(parsedData);
     res.json(parsedData);
   });
@@ -30,11 +31,14 @@ app.post("/api/notes", (req, res) => {
     const newNote = req.body;
 
     fs.readFile("./db/db.json", "utf-8", (err, data) => {
+        console.log(data);
         const parsedData = JSON.parse(data);
-
+        console.log(parsedData);
+        const uniqData = parsedData.map(x => x.id = uniqid());
+        console.log(uniqData);
         parsedData.push(newNote);
 
-        console.log(parsedData);
+        
 
         fs.writeFile("./db/db.json", JSON.stringify(parsedData), () => {
             console.log("Added new note successfully!")
