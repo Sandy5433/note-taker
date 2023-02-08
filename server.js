@@ -19,7 +19,6 @@ app.get("/notes", (req, res) => {
 app.get("/api/notes", (req, res) => {
   fs.readFile("./db/db.json", "utf-8", (err, data) => {
     const parsedData = JSON.parse(data); //converts data from string to array
-    // console.log(parsedData);
     res.json(parsedData);
   });
 });
@@ -34,8 +33,7 @@ app.post("/api/notes", (req, res) => {
         console.log(data);
         const parsedData = JSON.parse(data);
         console.log(parsedData);
-        const uniqData = parsedData.map(x => x.id = uniqid());
-        console.log(uniqData);
+        newNote.id=uniqid();
         parsedData.push(newNote);
 
         
