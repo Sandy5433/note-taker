@@ -44,12 +44,12 @@ app.post("/api/notes", (req, res) => {
 app.delete("/api/notes/:id", (req,res) => {
   fs.readFile("./db/db.json", "utf-8", (err, notes) => {
     const deleteId = req.params.id;
-    const deleteObj = notes.findIndex(object => {
+    const parsedNotes = JSON.parse(notes)
+    const deleteObj = parsedNotes.findIndex(object => {
       return object.id === deleteId;
     });
-    notes.splice(deleteObj, 1);
+    parsedNotes.splice(deleteObj, 1);
     console.log(notes);
-    const parsedNotes = JSON.parse(notes);
 
     fs.writeFile("./db/db.json", JSON.stringify(parsedNotes), () => {
       console.log("note deleted!")
