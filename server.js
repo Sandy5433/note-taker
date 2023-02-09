@@ -4,6 +4,7 @@ const path = require("path");
 const fs = require("fs");
 const { parse } = require("path");
 const uniqid = require("uniqid");
+const PORT = process.env.PORT || 3001
 
 // middleware
 app.use(express.static("public"));
@@ -63,6 +64,6 @@ app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "./public/index.html"));
 })
 
-app.listen(3001, () => {
+app.listen(PORT, () => {
   console.log("Server is now online!");
 });
